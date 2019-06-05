@@ -34,10 +34,12 @@ End with an example of getting some data out of the system or using it for a lit
 
 | Parameter                   | Directory Name | Description                                                                  |
 |----------------------------|----------------|------------------------------------------------------------------------------|
-| a            | `./dl`         | Use |
-| b         | `./lr`         | Use        |
-| c | `./mrl`        |                |
-| d           | `./nn`         | Use      |
+| Tissue            | --tissue      | The Tissue |
+| Chromosone         | --chr          | The chromosome of the gene        |
+| Gene | --gene        |                | The gene name
+| Family path           |--famPath | The path of the fam file, the ids in the fam file should fit the ids from the vcf file  |
+| Prediction          |--pred | The path of the original prediciton matrix  |
+| VCF           |--vcf | The path of the vcf file, retrieved by step 0|
 
 Explain how to run the automated tests for this system
 
