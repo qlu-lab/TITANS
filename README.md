@@ -6,7 +6,23 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-What things you need to install the software and how to install them
+The following R packages are required:
+
+reshape2
+
+survival
+
+data.table
+
+optparse
+
+methods
+
+survival
+
+tidyverse
+
+dplyr
 
 ```
 Give examples
