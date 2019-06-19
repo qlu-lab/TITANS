@@ -28,20 +28,19 @@ dplyr
 Give examples
 ```
 
-### Installing
+### Installing and step 0
 
-A step by step series of examples that tell you how to get a development env running
 
-Say what the step will be
-
-```
-Give the example
-```
-
-And repeat
+Downloading the following libraries
 
 ```
-until finished
+wget ..
+```
+
+For step 0, we get a vcf file in a compressed file (xxx.vcf.gz)
+
+```
+step0.bash
 ```
 
 End with an example of getting some data out of the system or using it for a little demo
@@ -69,13 +68,11 @@ wget /twas/path/to be use
 ```
 
 ### Step 2
-Run association test
-
-
-Explain what these tests test and why
+Run clogit association test
 
 ```
-Give an example
+R 
+3-assoc.clogit.R
 ```
 
 ## Step 3
