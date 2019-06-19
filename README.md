@@ -2,7 +2,7 @@
 
 ## Introduction
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+Our project gives...
 
 ### Prerequisites
 
@@ -59,7 +59,18 @@ End with an example of getting some data out of the system or using it for a lit
 
 Explain how to run the automated tests for this system
 
-### Break down into end to end tests
+### Step 1
+
+Download  prediction model(in txt) and TWAS
+
+```
+wget public/path/to/be/open
+wget /twas/path/to be use
+```
+
+### Step 2
+Run association test
+
 
 Explain what these tests test and why
 
@@ -67,15 +78,7 @@ Explain what these tests test and why
 Give an example
 ```
 
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-## Deployment
+## Step 3
 
 Add additional notes about how to deploy this on a live system
 
