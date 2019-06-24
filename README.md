@@ -51,7 +51,7 @@ End with an example of getting some data out of the system or using it for a lit
 |----------------------------|----------------|------------------------------------------------------------------------------|
 | Tissue            | --tissue      | The Tissue |
 | Chromosone         | --chr          | The chromosome of the gene        |
-| Gene | --gene        |                | The gene name
+| Gene | --gene        |                | Gene name                                  |
 | Family path           |--famPath | The path of the fam file, the ids in the fam file should fit the ids from the vcf file  |
 | Prediction          |--pred | The path of the original prediciton matrix  |
 | VCF           |--vcf | The path of the vcf file, retrieved by step 0|
