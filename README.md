@@ -27,16 +27,17 @@ Give examples
 ### Installing and step 0
 
 
-Downloading the following libraries
+Downloading the following libraries and create a directory called trio-twas and change to this destination directory.
 
 ```
 wget ..
+mkdir trio-twas
+cd trio-twas
 ```
-
-For step 0, we get a vcf file in a compressed file (xxx.vcf.gz)
+Download xx.gz and decompress xx.gz under folder trio-twas
 
 ```
-step0.bash
+unzip xx.gz
 ```
 
 End with an example of getting some data out of the system or using it for a little demo
