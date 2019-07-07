@@ -16,8 +16,6 @@ data.table
 
 optparse
 
-methods
-
 survival
 
 tidyverse
