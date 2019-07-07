@@ -35,10 +35,16 @@ mkdir trio-twas
 cd trio-twas
 ```
 Download xx.gz and decompress xx.gz under folder trio-twas
-
 ```
 unzip xx.gz
+
 ```
+
+Change to Scripts folder 
+```
+cd scripts
+```
+
 
 End with an example of getting some data out of the system or using it for a little demo
 
@@ -57,11 +63,9 @@ Explain how to run the automated tests for this system
 
 ### Step 1
 
-Download  prediction model(in txt) and TWAS
-
+Ask users to create folder results
 ```
-wget public/path/to/be/open
-wget /twas/path/to be use
+mkdir results
 ```
 
 ### Step 2
