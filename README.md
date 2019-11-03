@@ -93,6 +93,6 @@ See also the list of [contributors](##) who participated in this project.
 All rights reserved for Lu-Laboratory
 
 ## Acknowledgments
-[bcftools](http://samtools.github.io/bcftools/bcftools.html) \\
+[bcftools](http://samtools.github.io/bcftools/bcftools.html) \
 [plink2R](https://github.com/gusevlab/fusion_twas/issues/13)
 
