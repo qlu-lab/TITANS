@@ -63,9 +63,11 @@ Explain how to run the automated tests for this system
 
 ### Step 1
 
-Ask users to create folder results
+Conduct Quality Check by using [bcftools](http://samtools.github.io/bcftools/bcftools.html) 
+
+
 ```
-mkdir results
+bcftools filter -i 'INFO/MAF>0.01 && INFO/R2>0.8' $vcfPath -Oz -o $output
 ```
 
 ### Step 2
@@ -84,7 +86,6 @@ Add additional notes about how to deploy this on a live system
 
 ## Authors
 
-
 See also the list of [contributors](##) who participated in this project.
 
 ## License
@@ -92,5 +93,6 @@ See also the list of [contributors](##) who participated in this project.
 All rights reserved for Lu-Laboratory
 
 ## Acknowledgments
-
+[bcftools](http://samtools.github.io/bcftools/bcftools.html)
+[plink2R](https://github.com/gusevlab/fusion_twas/issues/13)
 
