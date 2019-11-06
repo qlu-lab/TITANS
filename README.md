@@ -1,30 +1,44 @@
-# ASD-TWAS
+# TITANS
 
 ## Introduction
 
-Our project gives...
+TITANS (TrIo-based Transcriptome-wide AssociatioN Study) is a statistical framework to conduct TWAS in proband-parent trios. The preprint is available at ???.
+
 
 ### Prerequisites
 
-The following R packages are required:
-
-reshape2
-
-survival
-
-data.table
-
-optparse
-
-tidyverse
-
-dplyr
+TITANS is a statistical analysis based on phased trio genotyped data. We recommand performing phasing and imputation using Michigan Imputation Server. You can use [bcftools](http://samtools.github.io/bcftools/bcftools.html) and the following codes to perform post-imputation quality control
 
 ```
-Give examples
+$ bcftools filter -i 'INFO/MAF>0.01 && INFO/R2>0.8' $vcfPath -Oz -o $output
 ```
 
-### Installing and step 0
+The following R paskages are required for association tests:
+
+* data.table
+
+* dplyr
+
+* optparse
+
+* reshape2
+
+* survival
+
+* tidyverse
+
+
+### Getting started
+
+1. Clone the git repository
+
+```
+$ git clone https://github.com/qlu-lab/TITANS.git
+cd TITANS
+```
+
+Also the precomputed prediction model is available at 
+
 
 
 Downloading the following libraries and create a directory called trio-twas and change to this destination directory.
