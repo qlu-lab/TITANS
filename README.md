@@ -82,6 +82,7 @@ where the inputs are
 | --fam     | The path to the fam file; the fam file must follow the [PLINK format](https://www.cog-genomics.org/plink/1.9/formats#fam).<br>The sample IDs in the fam file should also be consistent with the sample IDs in the vcf file. |
 | --pred        | The path to the prediciton matrix. |
 | --vcf         | The path to the phased and QCed vcf file. |
+| --out       | The path to the output file. |
 
 The final result has the following fields:
 
