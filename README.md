@@ -106,7 +106,7 @@ Yupei Lin (University of Wisconsin-Madison, Department of Computer Sciences)
 
 ## License
 
-All rights reserved for Lu-Laboratory
+All rights reserved for [Lu-Laboratory](https://qlu-lab.org/)
 
 ## Acknowledgments
 The imputation models and part of the codes are modified from the precomputed GE imputation model [UTMOST](https://github.com/Joker-Jerome/UTMOST) and [FUSION](http://gusevlab.org/projects/fusion/), we thank the authors for sharing their GE imputation model and codes. 
