@@ -38,7 +38,7 @@ cd TITANS
 #### 2. Download and upzip the precomputed prediction model (99Mb before unzipping)
 
 ```bash
-$ wget -O GEmodel.zip -L https://uwmadison.box.com/shared/static/qriv1whlpoxzr0dkbeqmqvaot8yw5g6f.zip
+$ wget ftp://ftp.biostat.wisc.edu/pub/lu_group/Projects/TITANS/Software/
 $ unzip GEmodel.zip
 ```
 
