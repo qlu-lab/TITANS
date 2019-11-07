@@ -7,7 +7,7 @@ TITANS (TrIo-based Transcriptome-wide AssociatioN Study) is a statistical framew
 
 ### Prerequisites
 
-The software is developed and tested in Linux environment. Since TITANS is a statistical analysis based on phased trio genotyped data, we recommand performing phasing and imputation using [Michigan Imputation Server](https://imputationserver.sph.umich.edu/index.html#!). You can use [bcftools](http://samtools.github.io/bcftools/bcftools.html) and the following codes to perform post-imputation quality control
+The software is developed and tested in Linux and Mac OS environments. Since TITANS is a statistical analysis based on phased trio genotyped data, we recommand performing phasing and imputation using [Michigan Imputation Server](https://imputationserver.sph.umich.edu/index.html#!). You can use [bcftools](http://samtools.github.io/bcftools/bcftools.html) and the following codes to perform post-imputation quality control
 
 ```bash
 $ bcftools filter -i 'INFO/MAF>0.01 && INFO/R2>0.8' $INPUT -o $OUTPUT
@@ -38,7 +38,7 @@ cd TITANS
 #### 2. Download and upzip the precomputed prediction model (99Mb before unzipping)
 
 ```bash
-$ wget -O GEmodel.zip -L https://uwmadison.box.com/shared/static/qriv1whlpoxzr0dkbeqmqvaot8yw5g6f.zip
+$ wget ftp://ftp.biostat.wisc.edu/pub/lu_group/Projects/TITANS/Software/
 $ unzip GEmodel.zip
 ```
 
@@ -63,6 +63,40 @@ For detailed instructions of GE imputation models, please visit the [wiki](https
 
 #### 3. Tutorial
 
+We provide a walkthrough using fake data in tutorial. First, create a dirctory for the output
+
+```bash
+$ mkdir Results ## under TITANS/
+```
+
+and use the toy data under `Example` to conduct a trio-based TWAS on a `FAKE_GENE` on chromosome 1 in `FAKE_TISSUE`, the GE imputation model for this fake gene is under `Example/weight.FAKE_TISSUE.FAKE_GENE.txt`.
+
+```bash
+$ Rscript TITANS.assoc.R \
+  --tissue FAKE_TISSUE \
+  --chr 1 \
+  --gene FAKE_GENE \
+  --fam ./Example/FAKEDATA.fam \
+  --pred ./Example/weight.FAKE_TISSUE.FAKE_GENE.txt \
+  --vcf ./Example/FAKEDATA.vcf \
+  --out ./Results/FAKE_TISSUE.FAKE_GENE.txt
+```
+
+`TITANS` will write out a result table `./Results/FAKE_TISSUE.FAKE_GENE.txt`
+
+| Column | Value | Description |
+|-----|-------|------|
+| CHR |  1  | The chromosomal location of the gene |
+| Nsnps | 10 | Number of SNPs in the GE prediction model |
+| Nsnps.used | 10 | Number of SNPs used in building the association test |                                                    
+| Gene | FAKE_GENE | The name of the gene. |
+| Beta | -7.412979 | The estimated effect size. |
+| SE | 7.313888 | The estimated standard error of Beta. |
+| Z | -1.013548 | The Z test statistic for testing transmission disequilibrium. |
+| P | 0.310798 | The P-value for testing transmission disequilibrium. |
+
+**Interpretation:** This trio-based TWAS was based on `FAKE_GENE` on chromosome 1, with `10` SNPs in the GE imputation model. After post-imputation QC and checking for variant consistency between GE model and genotyping data, `10` SNPs remain in our analysis. The disease effect size of `FAKE_GENE` estimated by conditional logistic regression is `7.31388`, the direction of `Beta` indicates that the higher expression raises the disease risk. The P-value is `0.310798`, indicating that the gene is not significantly associated with the disease. In other words, `FAKE_GENE` is not considered associating with the disease in `FAKE_TISSUE.`
+
 
 
 #### 4. Use TITANS to perform trio-based TWAS
@@ -70,13 +104,14 @@ For detailed instructions of GE imputation models, please visit the [wiki](https
 The `TITANS.assoc.R` outputs the trio-based transcriptome-wide association test result **one gene in one tissue at a time**. `TITANS.assoc.R` takes the following inputs
 
 ```bash
-Rscripts TITANS.assoc.R
-  --tissue $TISSUE
-  --chr $CHR
-  --gene $GENE
-  --fam $FAMPATH
-  --pred $PRED
-  --vcf $VCF
+$ Rscripts TITANS.assoc.R \
+    --tissue $TISSUE \
+    --chr $CHR \
+    --gene $GENE \
+    --fam $FAMPATH \
+    --pred $PRED \
+    --vcf $VCF \
+    --out $OUTPUT \
 ```
 where the inputs are
 
@@ -103,11 +138,17 @@ The final result has the following fields:
 | Z | The Z test statistic for testing transmission disequilibrium. |
 | P | The P-value for testing transmission disequilibrium. |
 
+#### 5. Clean up output
+
+
+
 ## Authors
 
 Qiongshi Lu (University of Wisconsin-Madison, Department of Biostatistics and Medical Informatics)
 
 Kunling Huang (University of Wisconsin-Madison, Department of Statistics)
+
+Yuchang Wu (University of Wisconsin-Madison, Department of Biostatistics and Medical Informatics)
 
 Yupei Lin (University of Wisconsin-Madison, Department of Computer Sciences)
 
