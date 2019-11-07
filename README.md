@@ -66,13 +66,13 @@ For detailed instructions of GE imputation models, please visit the [wiki](https
 We provide a walkthrough using fake data in tutorial. First, create a dirctory for the output
 
 ```bash
-mkdir Results ## under TITANS/
+$ mkdir Results ## under TITANS/
 ```
 
 and use the toy data under `Example` to conduct a trio-based TWAS on a `FAKE_GENE` on chromosome 1 in `FAKE_TISSUE`, the GE imputation model for this fake gene is under `Example/weight.FAKE_TISSUE.FAKE_GENE.txt`.
 
 ```bash
-Rscript TITANS.assoc.R \
+$ Rscript TITANS.assoc.R \
   --tissue FAKE_TISSUE \
   --chr 1 \
   --gene FAKE_GENE \
@@ -104,14 +104,14 @@ Rscript TITANS.assoc.R \
 The `TITANS.assoc.R` outputs the trio-based transcriptome-wide association test result **one gene in one tissue at a time**. `TITANS.assoc.R` takes the following inputs
 
 ```bash
-Rscripts TITANS.assoc.R \
-  --tissue $TISSUE \
-  --chr $CHR \
-  --gene $GENE \
-  --fam $FAMPATH \
-  --pred $PRED \
-  --vcf $VCF \
-  --out $OUTPUT \
+$ Rscripts TITANS.assoc.R \
+    --tissue $TISSUE \
+    --chr $CHR \
+    --gene $GENE \
+    --fam $FAMPATH \
+    --pred $PRED \
+    --vcf $VCF \
+    --out $OUTPUT \
 ```
 where the inputs are
 
