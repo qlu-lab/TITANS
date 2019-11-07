@@ -227,7 +227,7 @@ result = tryCatch({
 }
 )
 
-if(is.na(result)){
+if(length(result) == 1){
   Result = data.frame(chr, nrow(pred), nrow(weight), gene.name, t(rep(NA, 4))) %>% 
     `colnames<-`(c("CHR", "Nsnps", "Nsnps.used", "Gene", "Beta", "Exp.beta", "SE", "Z", "P"))
   write.table(Result, file = output, row.names = F, col.names = T, append = F, quote = F, sep = "\t")
