@@ -16,14 +16,14 @@ where `$INPUT` is the [vcf.gz](https://www.internationalgenome.org/wiki/Analysis
 
 **Note:** For vcf.gz or vcf files not from Michigan Imputation Server, they need fields `INFO/MAF` and `INFO/R2` to perform quality control.
 
-The statistical computing software [R (>=3.5.1)](https://www.r-project.org/) and the following R packages are required for association tests:
+The statistical computing software [R](https://www.r-project.org/) (>=3.5.1) and the following R packages are required for association tests:
 
-* [data.table (>=1.11.8)](https://cran.r-project.org/web/packages/data.table/index.html)
-* [dplyr (>=0.8.3)](https://cran.r-project.org/web/packages/dplyr/index.html)
-* [optparse (>=1.6.0)](https://cran.r-project.org/web/packages/optparse/index.html)
-* [reshape2 (>=1.4.3)](https://cran.r-project.org/web/packages/reshape2/index.html)
-* [survival (>=2.44-1.1)](https://cran.r-project.org/web/packages/survival/index.html)
-* [tidyverse (>=1.2.1)](https://cran.r-project.org/web/packages/tidyverse/index.html)
+* [data.table](https://cran.r-project.org/web/packages/data.table/index.html) (>=1.11.8)
+* [dplyr](https://cran.r-project.org/web/packages/dplyr/index.html) (>=0.8.3)
+* [optparse](https://cran.r-project.org/web/packages/optparse/index.html) (>=1.6.0)
+* [reshape2](https://cran.r-project.org/web/packages/reshape2/index.html) (>=1.4.3)
+* [survival](https://cran.r-project.org/web/packages/survival/index.html) (>=2.44-1.1)
+* [tidyverse](https://cran.r-project.org/web/packages/tidyverse/index.html) (>=1.2.1)
 
 
 ### Getting started
@@ -59,7 +59,13 @@ After upzipping, there will be directories containing gene expression (GE) imput
 | CMC_Brain_DLPFC | RNA-seq | 5419 | CMC |
 | CMC_Brain_DLPFC_splicing | RNA-seq splicing | 7782 | CMC |
 
-#### 3. Use TITANS to perform trio-based TWAS
+For detailed instructions of GE imputation models, please visit the [wiki](https://github.com/qlu-lab/TITANS/wiki/1.-Installation).
+
+#### 3. Tutorial
+
+
+
+#### 4. Use TITANS to perform trio-based TWAS
 
 The `TITANS.assoc.R` outputs the trio-based transcriptome-wide association test result **one gene in one tissue at a time**. `TITANS.assoc.R` takes the following inputs
 
