@@ -107,7 +107,7 @@ See also the list of [contributors](##) who participated in this project.
 
 ## License
 
-All rights reserved for Lu-Laboratory
+All rights reserved for [Lu-Laboratory](https://qlu-lab.org/)
 
 ## Acknowledgments
 [bcftools](http://samtools.github.io/bcftools/bcftools.html)
