@@ -7,16 +7,7 @@ TITANS (TrIo-based Transcriptome-wide AssociatioN Study) is a statistical framew
 
 ### Prerequisites
 
-The software is developed and tested in Linux and Mac OS environments. Since TITANS is a statistical analysis based on phased trio genotyped data, we recommand performing phasing and imputation using [Michigan Imputation Server](https://imputationserver.sph.umich.edu/index.html#!). You can use [bcftools](http://samtools.github.io/bcftools/bcftools.html) and the following codes to perform post-imputation quality control
-
-```bash
-$ bcftools filter -i 'INFO/MAF>0.01 && INFO/R2>0.8' $INPUT -o $OUTPUT
-```
-where `$INPUT` is the [vcf.gz](https://www.internationalgenome.org/wiki/Analysis/Variant%20Call%20Format/vcf-variant-call-format-version-40/) file processed by Michigan Imputation Server. The `bcftools` will output a QCed vcf file `$OUTPUT`. 
-
-**Note:** For vcf.gz or vcf files not from Michigan Imputation Server, they need fields `INFO/MAF` and `INFO/R2` to perform quality control.
-
-The statistical computing software [R](https://www.r-project.org/) (>=3.5.1) and the following R packages are required for association tests:
+The software is developed and tested in Linux and Mac OS environments. The statistical computing software [R](https://www.r-project.org/) (>=3.5.1) and the following R packages are required for association tests:
 
 * [data.table](https://cran.r-project.org/web/packages/data.table/index.html) (>=1.11.8)
 * [dplyr](https://cran.r-project.org/web/packages/dplyr/index.html) (>=0.8.3)
@@ -25,6 +16,16 @@ The statistical computing software [R](https://www.r-project.org/) (>=3.5.1) and
 * [survival](https://cran.r-project.org/web/packages/survival/index.html) (>=2.44-1.1)
 * [tidyverse](https://cran.r-project.org/web/packages/tidyverse/index.html) (>=1.2.1)
 
+### Data preparation
+
+`TITANS` is a statistical tool for analysing phased trio genotyped data. We recommand performing phasing and imputation using [Michigan Imputation Server](https://imputationserver.sph.umich.edu/index.html#!). You can use [bcftools](http://samtools.github.io/bcftools/bcftools.html) and the following codes to perform post-imputation quality control
+
+```bash
+$ bcftools filter -i 'INFO/MAF>0.01 && INFO/R2>0.8' $INPUT -o $OUTPUT
+```
+where `$INPUT` is the [vcf.gz](https://www.internationalgenome.org/wiki/Analysis/Variant%20Call%20Format/vcf-variant-call-format-version-40/) file processed by Michigan Imputation Server. The `bcftools` will output a QCed vcf file `$OUTPUT`. 
+
+**Note:** For vcf.gz or vcf files not from Michigan Imputation Server, they need fields `INFO/MAF` and `INFO/R2` to perform quality control.
 
 ### Getting started
 
@@ -42,7 +43,7 @@ $ wget ftp://ftp.biostat.wisc.edu/pub/lu_group/Projects/TITANS/Software/GEmodel.
 $ unzip GEmodel.zip
 ```
 
-After upzipping, there will be directories containing gene expression (GE) imputation models from 12 brain tissues from [Genotype-Tissue Expression (GTEx)](https://www.gtexportal.org/home/) and [CommonMind consortium (CMC)](https://www.nimhgenetics.org/resources/commonmind).
+After upzipping, there will be directories containing gene expression imputation models from 12 brain tissues from [Genotype-Tissue Expression (GTEx)](https://www.gtexportal.org/home/) and [CommonMind consortium (CMC)](https://www.nimhgenetics.org/resources/commonmind).
 
 | Tissue | Assay | # Genes | Study |
 |------|-----|------------|----------------------------------------|
@@ -59,7 +60,7 @@ After upzipping, there will be directories containing gene expression (GE) imput
 | CMC_Brain_DLPFC | RNA-seq | 5419 | CMC |
 | CMC_Brain_DLPFC_splicing | RNA-seq splicing | 7782 | CMC |
 
-For detailed instructions of GE imputation models, please visit the [wiki](https://github.com/qlu-lab/TITANS/wiki/1.-Installation).
+For detailed instructions of gene expression imputation models, please visit the [wiki](https://github.com/qlu-lab/TITANS/wiki/1.-Installation).
 
 #### 3. Tutorial
 
@@ -69,7 +70,7 @@ We provide a walkthrough using fake data in tutorial. First, create a dirctory f
 $ mkdir Results ## under TITANS/
 ```
 
-and use the toy data under `Example` to conduct a trio-based TWAS on a `FAKE_GENE` on chromosome 1 in `FAKE_TISSUE`, the GE imputation model for this fake gene is under `Example/weight.FAKE_TISSUE.FAKE_GENE.txt`.
+and use the toy data under `Example` to conduct a trio-based TWAS on a `FAKE_GENE` on chromosome 1 in `FAKE_TISSUE`, the gene expression imputation model for this fake gene is under `Example/weight.FAKE_TISSUE.FAKE_GENE.txt`, and the QCed vcf file and fam file are under `./Example/FAKEDATA.vcf` and `./Example/FAKEDATA.fam` respectively.
 
 ```bash
 $ Rscript TITANS.assoc.R \
@@ -87,7 +88,7 @@ $ Rscript TITANS.assoc.R \
 | Column | Value | Description |
 |-----|-------|------|
 | CHR |  1  | The chromosomal location of the gene |
-| Nsnps | 10 | Number of SNPs in the GE prediction model |
+| Nsnps | 10 | Number of SNPs in the gene expression prediction model |
 | Nsnps.used | 10 | Number of SNPs used in building the association test |                                                    
 | Gene | FAKE_GENE | The name of the gene. |
 | Beta | -7.412979 | The estimated effect size. |
@@ -95,9 +96,7 @@ $ Rscript TITANS.assoc.R \
 | Z | -1.013548 | The Z test statistic for testing transmission disequilibrium. |
 | P | 0.310798 | The P-value for testing transmission disequilibrium. |
 
-**Interpretation:** This trio-based TWAS was based on `FAKE_GENE` on chromosome 1, with `10` SNPs in the GE imputation model. After post-imputation QC and checking for variant consistency between GE model and genotyping data, `10` SNPs remain in our analysis. The disease effect size of `FAKE_GENE` estimated by conditional logistic regression is `7.31388`, the direction of `Beta` indicates that the higher expression raises the disease risk. The P-value is `0.310798`, indicating that the gene is not significantly associated with the disease. In other words, `FAKE_GENE` is not considered associating with the disease in `FAKE_TISSUE.`
-
-
+**Interpretation:** This trio-based TWAS was based on `FAKE_GENE` on chromosome 1, with `10` SNPs in the gene expression imputation model. After post-imputation QC and checking for variant consistency between gene expression model and genotyping data, `10` SNPs remain in our analysis. The disease effect size of `FAKE_GENE` estimated by conditional logistic regression is `7.31388`, the direction of `Beta` indicates that the higher expression raises the disease risk. The P-value is `0.310798`, indicating that the gene is not significantly associated with the disease. In other words, `FAKE_GENE` is not considered associating with the disease in `FAKE_TISSUE.`
 
 #### 4. Use TITANS to perform trio-based TWAS
 
@@ -113,6 +112,7 @@ $ Rscripts TITANS.assoc.R \
     --vcf $VCF \
     --out $OUTPUT \
 ```
+
 where the inputs are
 
 | Flag | Description |
@@ -130,7 +130,7 @@ The final result has the following fields:
 | Column | Description |
 |-----|-------------|
 | CHR | The chromosomal location of the gene |
-| Nsnps | Number of SNPs in the GE prediction model |
+| Nsnps | Number of SNPs in the gene expression prediction model |
 | Nsnps.used | Number of SNPs used in building the association test |                                                    
 | Gene | The name of the gene. |
 | Beta | The estimated effect size. |
@@ -154,4 +154,4 @@ Yupei Lin (University of Wisconsin-Madison, Department of Computer Sciences)
 All rights reserved for [Lu-Laboratory](https://qlu-lab.org/)
 
 ## Acknowledgments
-The imputation models and part of the codes are modified from the precomputed GE imputation model [UTMOST](https://github.com/Joker-Jerome/UTMOST) and [FUSION](http://gusevlab.org/projects/fusion/), we thank the authors for sharing their GE imputation model and codes. 
+The imputation models and part of the codes are modified from the precomputed gene expression imputation model [UTMOST](https://github.com/Joker-Jerome/UTMOST) and [FUSION](http://gusevlab.org/projects/fusion/), we thank the authors for sharing their gene expression imputation model and codes. 
