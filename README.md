@@ -36,7 +36,7 @@ $ git clone https://github.com/qlu-lab/TITANS.git
 cd TITANS
 ```
 
-#### 2. Download and upzip the precomputed prediction model (99Mb before unzipping)
+#### 2. Download and upzip the precomputed imputation model (99Mb before unzipping)
 
 ```bash
 $ wget ftp://ftp.biostat.wisc.edu/pub/lu_group/Projects/TITANS/Software/GEmodel.zip
@@ -88,7 +88,7 @@ $ Rscript TITANS.assoc.R \
 | Column | Value | Description |
 |-----|-------|------|
 | CHR |  1  | The chromosomal location of the gene |
-| Nsnps | 10 | Number of SNPs in the gene expression prediction model |
+| Nsnps | 10 | Number of SNPs in the gene expression imputation model |
 | Nsnps.used | 10 | Number of SNPs used in building the association test |                                                    
 | Gene | FAKE_GENE | The name of the gene. |
 | Beta | -7.412979 | The estimated effect size. |
@@ -130,7 +130,7 @@ The final result has the following fields:
 | Column | Description |
 |-----|-------------|
 | CHR | The chromosomal location of the gene |
-| Nsnps | Number of SNPs in the gene expression prediction model |
+| Nsnps | Number of SNPs in the gene expression imputation model |
 | Nsnps.used | Number of SNPs used in building the association test |                                                    
 | Gene | The name of the gene. |
 | Beta | The estimated effect size. |
