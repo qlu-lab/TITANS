@@ -138,9 +138,6 @@ The final result has the following fields:
 | Z | The Z test statistic for testing transmission disequilibrium. |
 | P | The P-value for testing transmission disequilibrium. |
 
-#### 5. Clean up output
-
-
 
 ## Authors
 
