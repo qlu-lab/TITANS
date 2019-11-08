@@ -138,6 +138,18 @@ The final result has the following fields:
 | Z | The Z test statistic for testing transmission disequilibrium. |
 | P | The P-value for testing transmission disequilibrium. |
 
+#### 5. Organize the output (optional)
+
+`Tables/gene.coordinate.txt` containing gene name, splicing ID (genes in CMC splicing will have its unique slicing ID, otherwise splicing ID is set as gene name), chromosomal location, and gene coordinate information based on hg19. Use this table and the following code to organize your TITANS results.
+
+```bash
+$ Rscripts TITANS.organize.R \
+    --input $INPUT \
+    --result $RESULT \
+    --out $OUTPUT \
+```
+
+**Note:** If users provide wrong chromosomal and gene information, the result table will still be generated, but the gene coordinate will not be available.
 
 ## Authors
 
