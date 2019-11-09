@@ -42,7 +42,7 @@ cd TITANS
 
 ```bash
 $ wget ftp://ftp.biostat.wisc.edu/pub/lu_group/Projects/TITANS/Software/GeneExpressionModels.zip
-$ unzip GEmodel.zip
+$ unzip GeneExpressionModels.zip
 ```
 
 After upzipping, there will be directories containing gene expression imputation models from 12 brain tissues from [Genotype-Tissue Expression (GTEx)](https://www.gtexportal.org/home/) and [CommonMind consortium (CMC)](https://www.nimhgenetics.org/resources/commonmind).
