@@ -2,7 +2,7 @@
 
 ### Introduction
 
-TITANS (TrIo-based Transcriptome-wide AssociatioN Study) is a statistical framework to conduct TWAS in proband-parent trios. TITANS quantifies gene over- or under- transmission disequilibrium of gene expression using pseudosibling (PS) simulation within proband-parent trios and conditional logistic regression. The preprint is available at [biorxiv](https://www.biorxiv.org/content/10.1101/835678v1).
+TITANS (TrIo-based Transcriptome-wide AssociatioN Study) is a statistical framework to conduct TWAS in proband-parent trios. TITANS quantifies the transmission disequilibrium of genetically regulated gene expression from parents to probands using a pseudosibling simulation approach and conditional logistic regression. The preprint is available at [biorxiv](https://www.biorxiv.org/content/10.1101/835678v1).
 
 ![TITANS workflow](https://github.com/qlu-lab/TITANS/blob/master/Fig/TWAS_workflow_B.png)
 
