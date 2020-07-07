@@ -2,7 +2,9 @@
 
 ### Introduction
 
-TITANS (TrIo-based Transcriptome-wide AssociatioN Study) is a statistical framework to conduct TWAS in proband-parent trios. The preprint is available at ???.
+TITANS (TrIo-based Transcriptome-wide AssociatioN Study) is a statistical framework to conduct TWAS in proband-parent trios. TITANS quantifies the transmission disequilibrium of genetically regulated gene expression from parents to probands using a pseudosibling simulation approach and conditional logistic regression. The preprint is available at [biorxiv](https://www.biorxiv.org/content/10.1101/835678v1).
+
+![TITANS workflow](https://github.com/qlu-lab/TITANS/blob/master/Fig/TWAS_workflow_B.png)
 
 
 ### Prerequisites
@@ -23,7 +25,7 @@ The software is developed and tested in Linux and Mac OS environments. The stati
 ```bash
 $ bcftools filter -i 'INFO/MAF>0.01 && INFO/R2>0.8' $INPUT -o $OUTPUT
 ```
-where `$INPUT` is the [vcf.gz](https://www.internationalgenome.org/wiki/Analysis/Variant%20Call%20Format/vcf-variant-call-format-version-40/) file processed by Michigan Imputation Server. The `bcftools` will output a QCed vcf file `$OUTPUT`. 
+where `$INPUT` is the [vcf.gz](https://www.internationalgenome.org/wiki/Analysis/Variant%20Call%20Format/vcf-variant-call-format-version-40/) file processed by Michigan Imputation Server. The `bcftools` will generate a QCed vcf file `$OUTPUT`. 
 
 **Note:** For vcf.gz or vcf files not from Michigan Imputation Server, they need fields `INFO/MAF` and `INFO/R2` to perform quality control.
 
@@ -36,11 +38,11 @@ $ git clone https://github.com/qlu-lab/TITANS.git
 cd TITANS
 ```
 
-#### 2. Download and upzip the precomputed imputation model (99Mb before unzipping)
+#### 2. Download and upzip the precomputed gene expression imputation model (196 Mb before unzipping)
 
 ```bash
-$ wget ftp://ftp.biostat.wisc.edu/pub/lu_group/Projects/TITANS/Software/GEmodel.zip
-$ unzip GEmodel.zip
+$ wget ftp://ftp.biostat.wisc.edu/pub/lu_group/Projects/TITANS/Software/GeneExpressionModels.zip
+$ unzip GeneExpressionModels.zip
 ```
 
 After upzipping, there will be directories containing gene expression imputation models from 12 brain tissues from [Genotype-Tissue Expression (GTEx)](https://www.gtexportal.org/home/) and [CommonMind consortium (CMC)](https://www.nimhgenetics.org/resources/commonmind).
@@ -60,11 +62,20 @@ After upzipping, there will be directories containing gene expression imputation
 | CMC_Brain_DLPFC | RNA-seq | 5419 | CMC |
 | CMC_Brain_DLPFC_splicing | RNA-seq splicing | 7782 | CMC |
 
-For detailed instructions of gene expression imputation models, please visit the [wiki](https://github.com/qlu-lab/TITANS/wiki/1.-Installation).
+Each model is stored in separate file under `./$TISSUE/pred$CHR/pred.$GENE.txt`, for example, the gene expression imputation model of *POU3F2* on chromosome 6 in tissue `Brain_Hippocampus` is stored under `./Brain_Hippocampus/pred6/pred.POU3F2.txt`. Each gene expression imputation model contains 6 fields:
+
+| Column | Description |
+|------|------|
+| rsid | Variant name |
+| gene | Gene name |
+| weight | The weight of the variant to gene expression with respect to effect allele couunts |
+| ref_allele | Reference allele |
+| eff_allele | Effect allele |
+| bd | The gene coordinate |
 
 #### 3. Tutorial
 
-We provide a walkthrough using fake data in tutorial. First, create a dirctory for the output
+We provide a walkthrough using toy data in tutorial. First, create a dirctory for the output
 
 ```bash
 $ mkdir Results ## under TITANS/
@@ -90,11 +101,11 @@ $ Rscript TITANS.assoc.R \
 | CHR |  1  | The chromosomal location of the gene |
 | Nsnps | 10 | Number of SNPs in the gene expression imputation model |
 | Nsnps.used | 10 | Number of SNPs used in building the association test |                                                    
-| Gene | FAKE_GENE | The name of the gene. |
-| Beta | -7.412979 | The estimated effect size. |
-| SE | 7.313888 | The estimated standard error of Beta. |
-| Z | -1.013548 | The Z test statistic for testing transmission disequilibrium. |
-| P | 0.310798 | The P-value for testing transmission disequilibrium. |
+| Gene | FAKE_GENE | The name of the gene |
+| Beta | -7.412979 | The estimated effect size |
+| SE | 7.313888 | The estimated standard error of Beta |
+| Z | -1.013548 | The Z test statistic for testing transmission disequilibrium |
+| P | 0.310798 | The P-value for testing transmission disequilibrium |
 
 **Interpretation:** This trio-based TWAS was based on `FAKE_GENE` on chromosome 1, with `10` SNPs in the gene expression imputation model. After post-imputation QC and checking for variant consistency between gene expression model and genotyping data, `10` SNPs remain in our analysis. The disease effect size of `FAKE_GENE` estimated by conditional logistic regression is `7.31388`, the direction of `Beta` indicates that the higher expression raises the disease risk. The P-value is `0.310798`, indicating that the gene is not significantly associated with the disease. In other words, `FAKE_GENE` is not considered associating with the disease in `FAKE_TISSUE.`
 
@@ -117,13 +128,13 @@ where the inputs are
 
 | Flag | Description |
 |-----|------------------------------------------------------------------------|
-| --tissue      | One of the above brain tissues. |
-| --chr         | The chromosomal location of the gene. |
-| --gene        | The name of the Gene. |                                                    
-| --fam     | The path to the fam file; the fam file must follow the [PLINK format](https://www.cog-genomics.org/plink/1.9/formats#fam).<br>The sample IDs in the fam file should also be consistent with the sample IDs in the vcf file. |
-| --pred        | The path to the prediciton matrix. |
-| --vcf         | The path to the phased and QCed vcf file. |
-| --out       | The path to the output file. |
+| --tissue      | One of the above brain tissues |
+| --chr         | The chromosomal location of the gene |
+| --gene        | The name of the Gene |                                                    
+| --fam     | The path to the fam file following the [PLINK format](https://www.cog-genomics.org/plink/1.9/formats#fam)<br>The sample IDs in the fam file should also be consistent with the sample IDs in the vcf file. |
+| --pred        | The path to the prediciton matrix |
+| --vcf         | The path to the phased and QCed vcf file |
+| --out       | The path to the output file |
 
 The final result has the following fields:
 
@@ -132,16 +143,40 @@ The final result has the following fields:
 | CHR | The chromosomal location of the gene |
 | Nsnps | Number of SNPs in the gene expression imputation model |
 | Nsnps.used | Number of SNPs used in building the association test |                                                    
-| Gene | The name of the gene. |
-| Beta | The estimated effect size. |
-| SE | The estimated standard error of Beta. |
-| Z | The Z test statistic for testing transmission disequilibrium. |
-| P | The P-value for testing transmission disequilibrium. |
+| Gene | The name of the gene |
+| Beta | The estimated effect size |
+| SE | The estimated standard error of Beta |
+| Z | The Z test statistic for testing transmission disequilibrium |
+| P | The P-value for testing transmission disequilibrium |
 
+#### 5. Organize the output (optional)
+
+`Tables/gene.coordinate.txt` containing gene name, splicing ID (genes in CMC splicing will have its unique slicing ID, otherwise splicing ID is set as gene name), chromosomal location, and gene coordinate information based on hg19. Use this table and the following code to organize your TITANS results.
+
+```bash
+$ Rscripts TITANS.organize.R \
+    --input $INPUT \
+    --infoTable $INFOTABLE \
+    --out $OUTPUT \
+```
+
+where the inputs are
+
+| Flag | Description |
+|-----|------------------------------------------------------------------------|
+| --input      | The path to the TITANS result table |
+| --infoTable  | The path to the gene coordinate information table |
+| --out        | The path to the output file |             
+
+**Note:** If users provide wrong chromosomal and gene information, the result table will still be generated, but the gene coordinate will not be available.
+
+## Citation
+
+If you use TITANS, please cite
+
+[Transcriptome-wide transmission disequilibrium analysis identifies novel risk genes for autism spectrum disorder](https://www.biorxiv.org/content/10.1101/835678v1)
 
 ## Authors
-
-Qiongshi Lu (University of Wisconsin-Madison, Department of Biostatistics and Medical Informatics)
 
 Kunling Huang (University of Wisconsin-Madison, Department of Statistics)
 
@@ -149,9 +184,11 @@ Yuchang Wu (University of Wisconsin-Madison, Department of Biostatistics and Med
 
 Yupei Lin (University of Wisconsin-Madison, Department of Computer Sciences)
 
+Qiongshi Lu (University of Wisconsin-Madison, Department of Biostatistics and Medical Informatics)
+
 ## License
 
-All rights reserved for [Lu-Laboratory](https://qlu-lab.org/)
+All rights reserved for [Lu-Laboratory](https://qlu-lab.org/).
 
 ## Acknowledgments
 The imputation models and part of the codes are modified from the precomputed gene expression imputation model [UTMOST](https://github.com/Joker-Jerome/UTMOST) and [FUSION](http://gusevlab.org/projects/fusion/), we thank the authors for sharing their gene expression imputation model and codes. 
