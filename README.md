@@ -35,7 +35,7 @@ where `$INPUT` is the [vcf.gz](https://www.internationalgenome.org/wiki/Analysis
 
 ```bash
 $ git clone https://github.com/qlu-lab/TITANS.git
-cd TITANS
+$ cd TITANS
 ```
 
 #### 2. Download and upzip the precomputed gene expression imputation model (196 Mb before unzipping)
@@ -75,39 +75,42 @@ Each model is stored in separate file under `./$TISSUE/pred$CHR/pred.$GENE.txt`,
 
 #### 3. Tutorial
 
-We provide a walkthrough using toy data in tutorial. First, create a dirctory for the output
+We provide a walkthrough using toy data. First, create a dirctory for the output
 
 ```bash
 $ mkdir Results ## under TITANS/
 ```
 
-and use the toy data under `Example` to conduct a trio-based TWAS on a `FAKE_GENE` on chromosome 1 in `FAKE_TISSUE`, the gene expression imputation model for this fake gene is under `Example/weight.FAKE_TISSUE.FAKE_GENE.txt`, and the QCed vcf file and fam file are under `./Example/FAKEDATA.vcf` and `./Example/FAKEDATA.fam` respectively.
+and use the toy data under `Example` to conduct a trio-based TWAS on gene `toy` on chromosome 1 in `toy_tissue`, the gene expression imputation model for this toy gene is under `Example/toy.pred.txt`, and the QCed vcf file and fam file are under `./Example/toy.vcf` and `./Example/toy.fam` respectively.
 
 ```bash
 $ Rscript TITANS.assoc.R \
-  --tissue FAKE_TISSUE \
+  --tissue toy_tissue \
   --chr 1 \
-  --gene FAKE_GENE \
-  --fam ./Example/FAKEDATA.fam \
-  --pred ./Example/weight.FAKE_TISSUE.FAKE_GENE.txt \
-  --vcf ./Example/FAKEDATA.vcf \
-  --out ./Results/FAKE_TISSUE.FAKE_GENE.txt
+  --gene toy \
+  --fam ./Example/toyfam \
+  --pred ./Example/toy.pred.txt \
+  --vcf ./Example/toy.vcf \
+  --out ./Results/toy.txt
+  --qc F \
+  --matching 3sib
 ```
 
-`TITANS` will write out a result table `./Results/FAKE_TISSUE.FAKE_GENE.txt`
+`TITANS` will write out a result table `./Results/toy.txt`
 
 | Column | Value | Description |
 |-----|-------|------|
 | CHR |  1  | The chromosomal location of the gene |
-| Nsnps | 10 | Number of SNPs in the gene expression imputation model |
-| Nsnps.used | 10 | Number of SNPs used in building the association test |                                                    
-| Gene | FAKE_GENE | The name of the gene |
-| Beta | -7.412979 | The estimated effect size |
-| SE | 7.313888 | The estimated standard error of Beta |
-| Z | -1.013548 | The Z test statistic for testing transmission disequilibrium |
-| P | 0.310798 | The P-value for testing transmission disequilibrium |
+| Nsnps | 80 | Number of SNPs in the gene expression imputation model |
+| Nsnps.used | 72 | Number of SNPs used in building the association test |   
+| Gene | toy | The name of the gene |
+| Matching | 3sib | The pseudo sibling matching method |
+| Beta | 0.01522 | The estimated effect size |
+| SE | 0.02914 | The estimated standard error of Beta |
+| Z | 0.52248 | The Z test statistic for testing transmission disequilibrium |
+| P | 0.60149 | The P-value for testing transmission disequilibrium |
 
-**Interpretation:** This trio-based TWAS was based on `FAKE_GENE` on chromosome 1, with `10` SNPs in the gene expression imputation model. After post-imputation QC and checking for variant consistency between gene expression model and genotyping data, `10` SNPs remain in our analysis. The disease effect size of `FAKE_GENE` estimated by conditional logistic regression is `7.31388`, the direction of `Beta` indicates that the higher expression raises the disease risk. The P-value is `0.310798`, indicating that the gene is not significantly associated with the disease. In other words, `FAKE_GENE` is not considered associating with the disease in `FAKE_TISSUE.`
+**Interpretation:** This trio-based TWAS was based on gene `toy` on chromosome 1, with `80` SNPs in the gene expression imputation model. After post-imputation QC and checking for variant consistency between gene expression model and genotyping data, `72` SNPs remain in theanalysis. The disease effect size of gene `toy` estimated by three pseudo sibling matching and conditional logistic regression is `0.01522`, while the direction of `Beta` indicates that the higher expression raises the disease risk. The P-value is `0.60149`, indicating that the gene is not significantly associated with the disease. In other words, `toy` is not considered associating with the disease in this tissue.
 
 #### 4. Use TITANS to perform trio-based TWAS
 
@@ -122,19 +125,25 @@ $ Rscripts TITANS.assoc.R \
     --pred $PRED \
     --vcf $VCF \
     --out $OUTPUT \
+    --qc $QC \
+    --matching $MATCHING
 ```
 
 where the inputs are
 
 | Flag | Description |
 |-----|------------------------------------------------------------------------|
-| --tissue      | One of the above brain tissues |
-| --chr         | The chromosomal location of the gene |
-| --gene        | The name of the Gene |                                                    
-| --fam     | The path to the fam file following the [PLINK format](https://www.cog-genomics.org/plink/1.9/formats#fam)<br>The sample IDs in the fam file should also be consistent with the sample IDs in the vcf file. |
-| --pred        | The path to the prediciton matrix |
-| --vcf         | The path to the phased and QCed vcf file |
-| --out       | The path to the output file |
+| tissue      | One of the above brain tissues |
+| chr         | The chromosomal location of the gene |
+| gene        | The name of the Gene |                                                    
+| fam     | The path to the fam file following the [PLINK format](https://www.cog-genomics.org/plink/1.9/formats#fam)<br>The sample IDs in the fam file should also be consistent with the sample IDs in the vcf file |
+| pred        | The path to the prediciton matrix |
+| vcf         | The path to the phased and QCed vcf file |
+| out       | The path to the output file |
+| qc       | Removing the SNPs with imputation quality < 0.8 or MAF < 0.01 |
+| matching       | Preferred pseudo sibling matching method, choose among 3sib, 1sib, and 2parent |
+
+We provided three matching methods for analyzing the trios. Matching method `3sib` generates three pseudo siblings and estimates the effect size using conditional logistic regression, as illustrated in the workflow. Matching method `1sib` generates 1 pseudo sibling using untransmitted parental alleles and estimates the effect size using logistic regression. Finally, `2parent` estimates the effect size using the gene expressions from parents and conditional logistic regression.
 
 The final result has the following fields:
 
@@ -142,8 +151,9 @@ The final result has the following fields:
 |-----|-------------|
 | CHR | The chromosomal location of the gene |
 | Nsnps | Number of SNPs in the gene expression imputation model |
-| Nsnps.used | Number of SNPs used in building the association test |                                                    
+| Nsnps.used | Number of SNPs used in building the association test |                                                 
 | Gene | The name of the gene |
+| Matching | The matching method for analysing the trios |
 | Beta | The estimated effect size |
 | SE | The estimated standard error of Beta |
 | Z | The Z test statistic for testing transmission disequilibrium |
@@ -151,7 +161,7 @@ The final result has the following fields:
 
 #### 5. Organize the output (optional)
 
-`Tables/gene.coordinate.txt` containing gene name, splicing ID (genes in CMC splicing will have its unique slicing ID, otherwise splicing ID is set as gene name), chromosomal location, and gene coordinate information based on hg19. Use this table and the following code to organize your TITANS results.
+You can use `TITANS.organize.R` and `Tables/gene.coordinate.txt` for adding gene coordinate information or mapping the intron clusters to genes. `Tables/gene.coordinate.txt` containing gene name, splicing ID (genes in CMC splicing will have its unique slicing ID, otherwise splicing ID is set as gene name), chromosomal location, and gene coordinate information based on hg19. Use the following code to organize your TITANS results.
 
 ```bash
 $ Rscripts TITANS.organize.R \
