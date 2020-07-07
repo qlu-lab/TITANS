@@ -17,7 +17,7 @@ option_list = list(
               help="The path to the phased and QCed vcf file."),
   make_option("--out", action = "store", default = NA, type = "character",
               help="The path to the output file."),
-  make_option("--qc", action = "store", default = T, type = "character",
+  make_option("--qc", action = "store", default = T,
               help="Removing SNPs with imputation quality less than 0.8 or MAF less than 0.01"),
   make_option("--matching", action = "store", default = "3sib", type = "character",
               help="The pseudo sibling matching method, choose among 3sib, 1sib, and 2parent")
@@ -46,7 +46,6 @@ tissue = opt$tissue
 chr = opt$chr
 gene.name = opt$gene
 output = opt$out
-
 # --- 1. Performing strandflip
 
 source("TITANS.strand_flip.R")
