@@ -55,7 +55,7 @@ weight = strand.flip(tissue, chr, gene.name, pred) # weight matrix after strandf
 if(nrow(weight) == 0){
   cat("WARNING: no snp left in the imputation model after strand flip.\n")
   Result = data.frame(chr, nrow(pred), nrow(weight), gene.name, opt$matching, t(rep(NA, 4))) %>% 
-    `colnames<-`(c("CHR", "Nsnps", "Nsnps.used", "Gene", "Matching", "Beta", "Exp.beta", "SE", "Z", "P"))
+    `colnames<-`(c("CHR", "Nsnps", "Nsnps.used", "Gene", "Matching", "Beta", "SE", "Z", "P"))
   write.table(Result, file = output, row.names = F, col.names = T, append = F, quote = F, sep = "\t")
   q("no")
 }
@@ -64,7 +64,7 @@ vcf = as.data.frame(fread(opt$vcf, header = T, sep = "\t"))
 if(nrow(vcf) == 0){
   cat( "WARNING: No lines available in the vcf file\n")
   Result = data.frame(chr, nrow(pred), nrow(weight), gene.name, opt$matching, t(rep(NA, 4))) %>% 
-    `colnames<-`(c("CHR", "Nsnps", "Nsnps.used", "Gene", "Matching", "Beta", "Exp.beta", "SE", "Z", "P"))
+    `colnames<-`(c("CHR", "Nsnps", "Nsnps.used", "Gene", "Matching", "Beta", "SE", "Z", "P"))
   write.table(Result, file = output, row.names = F, col.names = T, append = F, quote = F, sep = "\t")
   q("no")
 }
@@ -94,7 +94,7 @@ if(opt$qc){
   if(nrow(vcf) == 0){
     cat( "WARNING: No snp left after QC\n")
     Result = data.frame(chr, nrow(pred), nrow(weight), gene.name, opt$matching, t(rep(NA, 4))) %>% 
-      `colnames<-`(c("CHR", "Nsnps", "Nsnps.used", "Gene", "Matching", "Beta", "Exp.beta", "SE", "Z", "P"))
+      `colnames<-`(c("CHR", "Nsnps", "Nsnps.used", "Gene", "Matching", "Beta", "SE", "Z", "P"))
     write.table(Result, file = output, row.names = F, col.names = T, append = F, quote = F, sep = "\t")
     q("no")
   }
@@ -105,7 +105,7 @@ snp.intersect = intersect(vcf$POS, weight$POS)
 if(length(snp.intersect) == 0){
   cat( "WARNING: No common snp in prediction model and vcf file\n")
   Result = data.frame(chr, nrow(pred), nrow(weight), gene.name, opt$matching, t(rep(NA, 4))) %>% 
-    `colnames<-`(c("CHR", "Nsnps", "Nsnps.used", "Gene", "Matching", "Beta", "Exp.beta", "SE", "Z", "P"))
+    `colnames<-`(c("CHR", "Nsnps", "Nsnps.used", "Gene", "Matching", "Beta", "SE", "Z", "P"))
   write.table(Result, file = output, row.names = F, col.names = T, append = F, quote = F, sep = "\t")
   q("no")
 }
@@ -196,7 +196,7 @@ result = tryCatch({
 
 if(length(result) == 1){
   Result = data.frame(chr, nrow(pred), nrow(weight), gene.name, opt$matching, t(rep(NA, 4))) %>% 
-    `colnames<-`(c("CHR", "Nsnps", "Nsnps.used", "Gene", "Matching", "Beta", "Exp.beta", "SE", "Z", "P"))
+    `colnames<-`(c("CHR", "Nsnps", "Nsnps.used", "Gene", "Matching", "Beta", "SE", "Z", "P"))
   write.table(Result, file = output, row.names = F, col.names = T, append = F, quote = F, sep = "\t")
 } else{
   Result = data.frame(chr, nrow(pred), nrow(weight), gene.name, opt$matching, summary(result)$coefficients) %>% 
