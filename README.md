@@ -117,7 +117,7 @@ $ Rscript TITANS.assoc.R \
 The `TITANS.assoc.R` outputs the trio-based transcriptome-wide association test result **one gene in one tissue at a time**. `TITANS.assoc.R` takes the following inputs
 
 ```bash
-$ Rscripts TITANS.assoc.R \
+$ Rscript TITANS.assoc.R \
     --tissue $TISSUE \
     --chr $CHR \
     --gene $GENE \
@@ -164,7 +164,8 @@ The final result has the following fields:
 You can use `TITANS.organize.R` and `Tables/gene.coordinate.txt` for adding gene coordinate information or mapping the intron clusters to genes. `Tables/gene.coordinate.txt` containing gene name, splicing ID (genes in CMC splicing will have its unique slicing ID, otherwise splicing ID is set as gene name), chromosomal location, and gene coordinate information based on hg19. Use the following code to organize your TITANS results.
 
 ```bash
-$ Rscripts TITANS.organize.R \
+$ Rscript
+TITANS.organize.R \
     --input $INPUT \
     --infoTable $INFOTABLE \
     --out $OUTPUT \
