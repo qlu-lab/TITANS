@@ -58,7 +58,7 @@ After upzipping, there will be directories containing gene expression imputation
 | Brain_Hippocampus | RNA-seq | 11486 | GTEx |
 | Brain_Hypothalamus | RNA-seq | 11783 | GTEx |
 | Brain_Nucleus_accumbens_basal_ganglia | RNA-seq | 11564 | GTEx |
-| Brain_Putamen_basal_ganglia.txt | RNA-seq | 11153 | GTEx |
+| Brain_Putamen_basal_ganglia | RNA-seq | 11153 | GTEx |
 | CMC_Brain_DLPFC | RNA-seq | 5419 | CMC |
 | CMC_Brain_DLPFC_splicing | RNA-seq splicing | 7782 | CMC |
 
